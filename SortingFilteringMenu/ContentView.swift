@@ -69,9 +69,9 @@ struct ContentView: View {
         }
     }
     
-    
+    //Create a predicate as always true
     func buildPredicate() -> NSPredicate {
-        NSPredicate()
+        return NSPredicate(value: true)
     }
     
     
