@@ -9,6 +9,25 @@ import CoreData
 
 extension Dessert {
     
+    static func consumedByJohnDoe(_ context:NSManagedObjectContext) -> [Dessert]? {
+        guard let customer = Customer.with(fullName: "John Doe", context) else { return nil }
+        
+        let request = Dessert.request()
+        
+        let predicate = NSPredicate(format: "(ANY fromCustomer == %@)", customer)
+        request.predicate = predicate
+        
+        do {
+            guard let results = try context.fetch(request) as? [Dessert],
+                              results.count > 0
+            else { return nil }
+            return results
+        } catch (let error){
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     private static func request() -> NSFetchRequest<NSFetchRequestResult> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: Self.self))
         request.returnsDistinctResults = true

@@ -9,6 +9,22 @@ import CoreData
 
 extension Customer {
     
+    //Searching for desserts consumed by a customer
+    static func with(fullName: String,_ context:NSManagedObjectContext) -> Customer? {
+        let request = Customer.request()
+        
+        let predicate = NSPredicate(format: "(fullName CONTAINS[cd] %@)", fullName)
+        request.predicate = predicate
+        
+        do {
+            guard let results = try context.fetch(request) as? [Customer], results.count > 0 else { return nil }
+            return results.first
+        } catch(let error) {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     private static func request() -> NSFetchRequest<NSFetchRequestResult> {
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: Self.self))
         request.returnsDistinctResults = true
