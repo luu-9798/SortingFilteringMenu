@@ -71,7 +71,10 @@ struct ContentView: View {
     
     //Create a predicate as always true
     func buildPredicate() -> NSPredicate {
-        return NSPredicate(value: true)
+        if searchText == "" {
+            return NSPredicate(value: true)
+        }
+        return NSPredicate(format: "name CONTAINS[cd] %@", searchText)
     }
     
     
