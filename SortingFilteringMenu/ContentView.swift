@@ -79,7 +79,7 @@ struct ContentView: View {
     
     
     func buildSortDescriptors() -> [NSSortDescriptor] {
-        []
+        return [NSSortDescriptor(key: sortBy.rawValue, ascending: true)]
     }
     
 }
